@@ -21,6 +21,7 @@ namespace Trololo
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.FormClosing += Form1_FormClosing;
             this.Visible = true;
             Rectangle bounds = Screen.GetBounds(Screen.GetBounds(Point.Empty));
             Random rd = new Random();
@@ -30,8 +31,13 @@ namespace Trololo
                 int picYPoint = rd.Next(0, bounds.Height - this.Height);
                 Point ulCorner = new Point(picXPoint, picYPoint);
                 this.Location = ulCorner;
-                Delay(100);
+                Delay(55);
             }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            new Form1().Show();
         }
 
         public static void Delay(int mm)
@@ -43,5 +49,6 @@ namespace Trololo
             }
             return;
         }
+
     }
 }
