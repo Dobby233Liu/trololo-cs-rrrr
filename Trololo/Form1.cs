@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Windows.Forms;
 
@@ -23,6 +24,8 @@ namespace Trololo
         {
             this.FormClosing += Form1_FormClosing;
             this.Visible = true;
+            SoundPlayer player = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("trolo"));
+            player.PlayLooping();
             Rectangle bounds = Screen.GetBounds(Screen.GetBounds(Point.Empty));
             Random rd = new Random();
             while (true)
